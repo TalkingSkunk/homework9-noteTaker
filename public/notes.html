@@ -62,17 +62,21 @@
                 document.querySelector('#savedNotes').innerHTML += `
           <li class="list-group-item list-group-item-action mb-3">
             <div class="d-flex w-100 justify-content-between">
-              <button onClick="readButton("${notesEntry.title}", "${notesEntry.notes}")" class='btn btn-warning btn-sm'>${notesEntry.title}</button>
+              <button onClick="readButton(event, ${i})" class='btn btn-warning btn-sm'>${notesEntry.title}</button>
             </div>
           </li>`
             };
-            function readButton(a, b) {
-                document.querySelector('#title').innerText = `${a}`;
-                document.querySelector('#notes').innerText = `${b}`;
-            };
+
         };
 
         getNotes();
+        async function readButton(e, i) {
+            const savedNotes = await fetch('/api/notes').then(r => r.json());
+            console.log(`array secrets`, savedNotes[i]);
+            e.preventDefault();
+            document.querySelector('#title').value = savedNotes[i].title;
+            document.querySelector('#notes').value = savedNotes[i].notes;
+        };
 
         const submitBtn = document.querySelector('#submit');
         submitBtn.addEventListener('click', (e) => {
@@ -99,32 +103,6 @@
                     console.error('error: ', error)
                 })
         })
-
-        // function postUrl(url, data = {}) {
-        //     // post requires header, method + data to be sent
-        //     const postData = {
-        //         headers: { 'Content-Type': 'application/json' },
-        //         method: 'POST',
-        //         body: JSON.stringify(data)
-        //     }
-        //     return fetch(url, postData).then(res => res.json())
-        // }
-
-        // async function submitBtn(event) {
-        //     event.preventDefault()
-
-        //     const noteData = {
-        //         title: document.querySelector('#title').value.trim(),
-        //         notes: document.querySelector('#notes').value.trim()
-        //     }
-        //     // clear input forms
-        //     document.querySelector('#title').value = ''
-        //     document.querySelector('#notes').value = ''
-
-        //     const result = await postUrl('/api/notes', noteData)
-        //     // once reservation result comes back display it
-        //     alert("Your note has been saved.");
-        // }   
     </script>
 </body>
 
