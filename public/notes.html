@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
-    <script src="/assets/js/index.js" defer></script>
 </head>
 
 <body>
@@ -41,14 +40,92 @@
                             <div class="form-group">
                                 <textarea class="form-control pb-5" id="notes" placeholder="Notes"></textarea>
                             </div>
-                            <button onClick="submitBtn" type="submit" class="btn btn-primary submit">submit</button>
+                            <button id="submit" type="submit" class="btn btn-primary submit">submit</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        async function getNotes() {
+            // GET "/api/notes"
+            console.log('Welcome to the notes.html')
+            const savedNotes = await fetch('/api/notes').then(r => r.json());
+            console.log('savedNotes', savedNotes)
+            // clear the prior listings
+            document.querySelector('#savedNotes').innerHTML = '';
 
+            // loop through and display the data in the savedNotes section
+            for (let i = 0; i < savedNotes.length; i++) {
+                let notesEntry = savedNotes[i]
+                document.querySelector('#savedNotes').innerHTML += `
+          <li class="list-group-item list-group-item-action mb-3">
+            <div class="d-flex w-100 justify-content-between">
+              <button onClick="readButton("${notesEntry.title}", "${notesEntry.notes}")" class='btn btn-warning btn-sm'>${notesEntry.title}</button>
+            </div>
+          </li>`
+            };
+            function readButton(a, b) {
+                document.querySelector('#title').innerText = `${a}`;
+                document.querySelector('#notes').innerText = `${b}`;
+            };
+        };
+
+        getNotes();
+
+        const submitBtn = document.querySelector('#submit');
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            let newNote = {
+                title: document.querySelector('#title').value.trim(),
+                notes: document.querySelector('#notes').value.trim()
+            }
+            fetch('/api/notes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newNote),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data) {
+                        alert('You have submitted your notes');
+                        document.querySelector('#title').value = '';
+                        document.querySelector('#notes').value = '';
+                        location.reload();
+                    }
+                })
+                .catch((error) => {
+                    console.error('error: ', error)
+                })
+        })
+
+        // function postUrl(url, data = {}) {
+        //     // post requires header, method + data to be sent
+        //     const postData = {
+        //         headers: { 'Content-Type': 'application/json' },
+        //         method: 'POST',
+        //         body: JSON.stringify(data)
+        //     }
+        //     return fetch(url, postData).then(res => res.json())
+        // }
+
+        // async function submitBtn(event) {
+        //     event.preventDefault()
+
+        //     const noteData = {
+        //         title: document.querySelector('#title').value.trim(),
+        //         notes: document.querySelector('#notes').value.trim()
+        //     }
+        //     // clear input forms
+        //     document.querySelector('#title').value = ''
+        //     document.querySelector('#notes').value = ''
+
+        //     const result = await postUrl('/api/notes', noteData)
+        //     // once reservation result comes back display it
+        //     alert("Your note has been saved.");
+        // }   
+    </script>
 </body>
 
 </html>
