@@ -25,7 +25,7 @@ let noteArray = fs.existsSync(database) ?
 
 // API ROUTES----------------------------
 function processingFunction(req, res) {
-    console.log('noteArray2', noteArray)
+    // console.log('noteArray2', noteArray)
     res.send(noteArray)
 };
 app.get('/api/notes', processingFunction); //find the notes list in the path
@@ -33,32 +33,25 @@ app.get('/api/notes', processingFunction); //find the notes list in the path
 app.post('/api/notes', function (req, res) {
     console.log('[POSTING TO /api/notes]', req.body);
     const newNote = req.body;
-    //{title:,text:,id:}
     newNote.id=uuid()
     console.log(`noteArray (Entry number: ${noteArray.length+1}), adding newNote: `, newNote);
     noteArray.push(newNote);
     // save to a file, as a string like localStorage
     fs.writeFileSync(database, JSON.stringify(noteArray))
 
-    res.send({ message: `Reserved for *${newNote.name}*` })
+    res.send({ message: `Saved.` })
 });
 
 // delete an entry from db.json
-app.delete ( 'api/notes/:id', (req,res)=>{
-    const noteArrayId = getIndexById( req.params.id, noteArray);
-    if (noteArrayId !== -1) {
-        noteArray.splice (noteArrayId, 1);
-        re.status (204).send();
-    } else {
-        res.status (404).send();
-    }
+app.delete('/api/notes/:id', function(req, res){
+    let noteId = req.params.id;
+    console.log(noteId)
+    noteArray = noteArray.filter( value => {return value.id !== noteId})
+    fs.writeFileSync( database, JSON.stringify(noteArray) )
+    res.send( { message: `Deleted `} )
 })
 
 // LISTENER----------------------------
 app.listen(PORT, () => {
     console.log('Listening on PORT: ', PORT);
 });
-
-
-
-let noteList = [{id: "0000-0000-0000-0000", title: 'note1', text: 'note1 text'}];
