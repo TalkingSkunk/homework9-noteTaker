@@ -70,11 +70,9 @@ SOFTWARE.
 
 
 ### What were your goals?
-* Create Constructor Class templates for each role title.
-* Create HTML card templates for each person.
-* Create 3 series of inquirer prompts for the 3 role titles.
-* Create a JS engine that processes user's input through Constructor Classes, and modifies the HTML card templates, and then puts all the cards into a finished HTML.
-* Output the finished HTML into a separate folder.
+* Take input from user,
+* Save the input on JSON file, and
+* Allow user to re-read pre-written notes.
 
 
 ### What have you done about it?
