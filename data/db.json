@@ -1,12 +1,7 @@
 [
     {
-        "title": "wefwef",
-        "notes": "wefwefwef",
+        "title": "Hello World",
+        "notes": "This is your first note.",
         "id": "229d885f-d9b6-4aa7-a2d9-483c3db3e0d0"
-    },
-    {
-        "title": "wefwef",
-        "text": "wefwef",
-        "id": "cf2fe421-089c-4521-ab38-c72bfe8a6b8d"
     }
 ]
