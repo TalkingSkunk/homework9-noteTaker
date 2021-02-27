@@ -8,8 +8,6 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/style.css">
-  <!-- include this if you need jQuery -->
-	<!-- <script src="https://code.jquery.com/jquery.js"></script> -->
 </head>
 
 <body>
@@ -17,7 +15,7 @@
     <a class="navbar-brand" href="/">Note Taker</a>
 
     <div class="icons">
-      <!-- save-note button is HIDDEN initially -->
+      <!-- new note button -->
       <button onClick="handleCreateNewNote(event)" id='newNoteBtn' class="btn btn-secondary btn-sm"><i class="fas fa-pen"></i></button>
     </div>
   </nav>
@@ -33,11 +31,12 @@
       <div class="col-8">
         <div class="card bg-light mt-2">
           <div class='card-header'>New Note</div>
+          <!-- two note input below -->
           <div class="card-body">
             <input onKeyUp="handleShowSaveBtn()" id='noteTitle' class="note-title" placeholder="Note Title" maxlength="28" type="text">
             <textarea onKeyUp="handleShowSaveBtn()"  id='noteText' class="note-textarea" placeholder="Note Text"></textarea>
-              
           </div>
+          <!-- save button hidden initially -->
           <div id='saveNoteBtn' class="card-footer d-none">
             <button onClick="handleNoteSave(event)" class="btn btn-primary btn-lg"><i class="fas fa-pen-alt"></i> Save</button>
           </div>

@@ -25,7 +25,6 @@ let noteArray = fs.existsSync(database) ?
 
 // API ROUTES----------------------------
 function processingFunction(req, res) {
-    // console.log('noteArray2', noteArray)
     res.send(noteArray)
 };
 app.get('/api/notes', processingFunction); //find the notes list in the path
@@ -44,11 +43,11 @@ app.post('/api/notes', function (req, res) {
 
 // delete an entry from db.json
 app.delete('/api/notes/:id', function(req, res){
-    let noteId = req.params.id;
-    console.log(noteId)
-    noteArray = noteArray.filter( value => {return value.id !== noteId})
-    fs.writeFileSync( database, JSON.stringify(noteArray) )
-    res.send( { message: `Deleted `} )
+    let noteId = req.params.id; // pinpoint the id of the array item
+    console.log('Note to be deleted by title: ', noteId)
+    noteArray = noteArray.filter( value => {return value.id !== noteId}) // filter and return only the untargeted notes
+    fs.writeFileSync( database, JSON.stringify(noteArray) ) //rewrite the .json
+    res.send( { message: `Successfully deleted `} )
 })
 
 // LISTENER----------------------------
